@@ -6,12 +6,17 @@ import { Provider } from "react-redux";
 import Counter from "./features/counter/Counter";
 import  PostsList from "./features/posts/PostsList";
 import AddPostForm from "./features/posts/AddPostForm";
+import { fetchUsers } from "./features/users/usersSlice";
+
+store.dispatch(fetchUsers());
+
 export default function Home() {
   return (
     <Provider store={store}>
       {/* <Counter/> */}
-      <PostsList/>
       <AddPostForm/>
+      <PostsList/>
+     
     </Provider>
   );
 }
