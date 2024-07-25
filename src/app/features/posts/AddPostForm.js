@@ -42,7 +42,7 @@ const AddPostForm = () => {
                 setUserId("");
 
             } catch (error) {
-                console.error("Failed to save the post ", err);
+                console.error("Failed to save the post ", error);
             } finally {
                 setAddRequestStatus("Idle");
             }

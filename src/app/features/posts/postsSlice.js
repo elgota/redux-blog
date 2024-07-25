@@ -37,27 +37,17 @@ const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
 const initialState = {
     posts: [],
     status: 'idle',
-    error: null,
+    error: null
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-    try {
-        const response = await axios.get(POSTS_URL);
-        return [...response.data];
-
-    } catch (err) {
-        return err.message;
-    }
+    const response = await axios.get(POSTS_URL)
+    return response.data
 })
 
-export const addNewPosts = createAsyncThunk('posts/addNewPosts', async (initialPost) => {
-    try {
+export const addNewPost = createAsyncThunk('posts/addNewPost', async (initialPost) => {
         const response = await axios.post(POSTS_URL, initialPost);
-        return [ response.data];
-
-    } catch (err) {
-        return err.message;
-    }
+        return response.data
 })
 
 const postsSlice = createSlice({
@@ -66,7 +56,7 @@ const postsSlice = createSlice({
     reducers: {
         postAdded: {
             reducer(state, action) {
-                state.posts.push(action.payload);
+                state.posts.push(action.payload)
             },
             prepare(title, content, userId) {
                 return {
@@ -88,22 +78,24 @@ const postsSlice = createSlice({
             }
         },
         reactionAdded(state, action) {
-            const { postId, reaction } = action.payload;
+            const { postId, reaction } = action.payload
             const existingPost = state.posts.find(post => post.id === postId);
             if (existingPost) {
-                existingPost.reactions[reaction]++;
+                existingPost.reactions[reaction]++
             }
         }
     },
     extraReducers(builder) {
         builder
-            .addCase(fetchPosts.pending, (state, action)=> {
+            .addCase(fetchPosts.pending, (state, action) => {
                 state.status = 'loading';
             })
             .addCase(fetchPosts.fulfilled, (state, action) => {
                 state.status = 'succeeded'
+
                 let min = 1;
                 const loadedPosts = action.payload.map(post => {
+
                     post.date = sub(new Date(), { minutes: min++ }).toISOString()
                     post.reactions = {
                         thumbsUp: 0,
@@ -122,8 +114,16 @@ const postsSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
-            .addCase(addNewPosts.fulfilled, (state, action) => {
-                action.payload.userId = Number(action.payload.userId);
+            .addCase(addNewPost.fulfilled, (state, action) => {
+
+                const sortedPosts = state.posts.sort((a, b) => {
+                    if (a.id > b.id) return 1
+                    if (a.id < b.id) return -1
+                    return 0
+                })
+                action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
+              
+                action.payload.userId = Number(action.payload.userId)
                 action.payload.date = new Date().toISOString();
                 action.payload.reactions = {
                     thumbsUp: 0,
