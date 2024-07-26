@@ -4,12 +4,10 @@ const Post = ({ params }) => {
 
   console.log("Dynamic route flag ", params)
 
-  const postId = params.postId;
+  const { id: postId } = params;
   return (
     <div>
-      <p>testing routing with page post number {params.id}</p>
-   {/*  <SinglePostPage postId={postId}/> */}
-    <SinglePostPage />
+    <SinglePostPage postId={postId}/>
     </div>
     
   );

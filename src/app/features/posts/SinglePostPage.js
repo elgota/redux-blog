@@ -10,25 +10,25 @@ import { useRouter } from "next/navigation";
 
 
 
-const SinglePostPage = () => { 
+const SinglePostPage = ({ postId }) => { 
     //retrieve postId
 
     // const router = useRouter();
     // const { id: postId} = router.query;
     
 
-    // console.log("Post id flag: ", postId);
+    console.log("Post id flag: ", postId);
 
 
-    // const post = useSelector((state) => selectPostById(state, postId));
+    const post = useSelector((state) => selectPostById(state, Number(postId)));
   
-    // if (!post) {
+    if (!post) {
         return (
             <section>
                 <h2>Post not found!</h2>
             </section>
         )
-    // }
+    }
 
     return (
         <article>
