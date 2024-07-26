@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <Provider store={store}>
       {/* <Counter/> */}
-{/*       <AddPostForm/>
- */}      <PostsList/>
+       <AddPostForm/>
+      <PostsList/>
      
     </Provider>
   );

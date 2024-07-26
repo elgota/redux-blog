@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //import { nanoid } from "@reduxjs/toolkit";
@@ -49,7 +51,7 @@ const AddPostForm = () => {
         }
     }
 
-    
+
 
     const usersOptions = users.map(user => (
         <option key={user.id} value={user.id}>
@@ -72,10 +74,10 @@ const AddPostForm = () => {
 
                 <label htmlFor="postAuthor">Author:</label>
                 <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
-                   {/*  <option value=""> */}
-                        {usersOptions}
+                    {/*  <option value=""> */}
+                    {usersOptions}
                     {/* </option> */}
-
+                  
                 </select>
 
                 <label htmlFor="postContent">Content:</label>

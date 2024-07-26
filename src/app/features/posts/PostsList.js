@@ -8,6 +8,8 @@ import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 import PostsExcerpt from "./PostsExcerpt";
 
+import Link from "next/link";
+
 const PostsList = () => {
     const dispatch = useDispatch();
 
@@ -22,8 +24,6 @@ const PostsList = () => {
     }, [postStatus, dispatch]);
 
   /*   dispatch(fetchPosts()); */
-
-    console.log("Posts data array flag ", posts);
     
 
    {/* const renderedPosts = orderedPosts.map(post => (
@@ -50,8 +50,10 @@ const PostsList = () => {
             <h3>{post.title}</h3>
             <p>{post.body.substring(0, 100)}</p>
             <div className="postCredit">
+                <Link href={`pages/post/${post.id}`}> View Post</Link> 
                 <PostAuthor userId={post.userId} />
                 <TimeAgo timestamp={post.date} />
+
             </div>
             <ReactionButtons post={post} />
 

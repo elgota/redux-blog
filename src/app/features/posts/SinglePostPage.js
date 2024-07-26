@@ -1,27 +1,31 @@
-
+"use client"
+import { useSelector } from "react-redux";
 import { selectPostById } from "./postsSlice";
 
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+
+
 
 const SinglePostPage = () => { 
     //retrieve postId
 
     const router = useRouter();
-    const { postId } = router.query;
+    // const { id: postId} = router.query;
 
-    const post = useSelector((state) => selectPostById(state, postId))
 
-    if (!post) {
+    // const post = useSelector((state) => selectPostById(state, Number(postId)))
+  
+   /*  if (!post) { */
         return (
             <section>
                 <h2>Post not found!</h2>
             </section>
         )
-    }
+    /* } */
 
     return (
         <article>
