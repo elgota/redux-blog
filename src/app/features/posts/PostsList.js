@@ -50,7 +50,7 @@ const PostsList = () => {
             <h3>{post.title}</h3>
             <p>{post.body.substring(0, 100)}</p>
             <div className="postCredit">
-                <Link href={`pages/post/${post.id}`}> View Post</Link> 
+                <Link href={`post/${post.id}`}> View Post</Link> 
                 <PostAuthor userId={post.userId} />
                 <TimeAgo timestamp={post.date} />
 
