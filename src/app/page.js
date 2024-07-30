@@ -8,7 +8,7 @@ import  PostsList from "./features/posts/PostsList";
 import AddPostForm from "./features/posts/AddPostForm";
 import { fetchUsers } from "./features/users/usersSlice";
 import SinglePostPage from "./features/posts/SinglePostPage";
-
+import Header from "./components/Header";
 // store.dispatch(fetchUsers());
 
 export default function Home() {
@@ -16,7 +16,8 @@ export default function Home() {
     <>
     {/* <Provider store={store}> */}
       {/* <Counter/> */}
-       <AddPostForm/>
+      <Header/>
+       {/* <AddPostForm/> */}
       <PostsList/>
 
      

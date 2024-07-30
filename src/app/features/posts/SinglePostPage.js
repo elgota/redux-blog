@@ -7,6 +7,7 @@ import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 
@@ -30,11 +31,16 @@ const SinglePostPage = ({ postId }) => {
         )
     }
 
+    
+
+  
+
     return (
         <article>
             <h2>{post.title}</h2>
             <p>{post.body}</p>
             <p className="postCredit">
+            <Link href={`edit/${post.id}`}> Edit Post</Link> 
                 <PostAuthor userId={post.userId} />
                 <TimeAgo timestamp={post.date} />
 

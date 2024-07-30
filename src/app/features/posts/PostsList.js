@@ -47,7 +47,7 @@ const PostsList = () => {
         content = orderedPosts.map(post => <PostsExcerpt key={post.id} post={post} />) */
         content = posts.map((post, index) => (
             <article key={index}>
-            <h3>{post.title}</h3>
+            <h2>{post.title}</h2>
             <p>{post.body.substring(0, 100)}</p>
             <div className="postCredit">
                 <Link href={`post/${post.id}`}> View Post</Link> 
@@ -67,7 +67,6 @@ const PostsList = () => {
     return (
 
         <section>
-            <h2>Posts</h2>
             {content}
         </section>
         
