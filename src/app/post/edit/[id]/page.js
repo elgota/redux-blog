@@ -9,30 +9,32 @@ import { selectPostById, updatePost } from "@/app/features/posts/postsSlice";
 import { selectAllUsers } from "@/app/features/users/usersSlice";
 const EditPostForm = ({ params }) => {
 
-  const { id: postId } = params;
+    const { id: postId } = params;
 
-  const post = useSelector((state) => selectPostById(state, Number(postId)));
-  const users = useSelector(selectAllUsers);
+    const post = useSelector((state) => selectPostById(state, Number(postId)));
+    const users = useSelector(selectAllUsers);
 
-  console.log("Users from edit Post", users);
-  const [title, setTitle] = useState(post?.title);
-  const [content, setContent] = useState(post?.body);
-  const [userId, setUserId] = useState(post?.userId);
-  const [requestStatus, setRequestStatus] = useState("idle");
+    console.log("Users from edit Post", users);
+    console.log("Post form posts flag", post);
 
-  const dispatch = useDispatch();
+    const [title, setTitle] = useState(post?.title);
+    const [content, setContent] = useState(post?.body);
+    const [userId, setUserId] = useState(post?.userId);
+    const [requestStatus, setRequestStatus] = useState("idle");
 
-  if (!post) {
-    return (
-        <section>
-            <h2>Post not found!</h2>
-        </section>
-    )
-}
+    const dispatch = useDispatch();
 
-const onTitleChanged = e => setTitle(e.target.value);
+    if (!post) {
+        return (
+            <section>
+                <h2>Post not found!</h2>
+            </section>
+        )
+    }
+
+    const onTitleChanged = e => setTitle(e.target.value);
     const onContentChanged = e => setContent(e.target.value);
-    const onAuthorChanged = e => setUserId(e.target.value);
+    const onAuthorChanged = e => setUserId(Number(e.target.value));
 
     const canSave = [title, content, userId].every(Boolean) && requestStatus === "idle";
 
@@ -64,10 +66,10 @@ const onTitleChanged = e => setTitle(e.target.value);
         </option>
     ))
 
-  return (
-    
-    <section>
-      {/* <div>EditPost {params.id}</div> */}
+    return (
+
+        <section>
+            {/* <div>EditPost {params.id}</div> */}
             <h2>Edit Post</h2>
             <form>
                 <label htmlFor="postTitle">Post Title:</label>
@@ -81,10 +83,8 @@ const onTitleChanged = e => setTitle(e.target.value);
 
                 <label htmlFor="postAuthor">Author:</label>
                 <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
-                     <option value=""></option>
+                    <option value=""></option>
                     {usersOptions}
-                    
-                  
                 </select>
 
                 <label htmlFor="postContent">Content:</label>
@@ -98,12 +98,13 @@ const onTitleChanged = e => setTitle(e.target.value);
                     type="button"
                     onClick={onSavePostClicked}
                     disabled={!canSave}
-                >Save Post</button>
+                >Save Post
+                </button>
             </form>
 
         </section>
-  
-  );
+
+    );
 };
 
 export default EditPostForm;
