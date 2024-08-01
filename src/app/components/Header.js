@@ -7,7 +7,7 @@ const Header = () => {
             <nav>
                 <ul>
                     <li><Link href="/">Home</Link></li>
-                    <li><Link href="post">Post</Link></li>
+                    <li><Link href="/post/add">Post</Link></li>
                     
                 </ul>
             </nav>

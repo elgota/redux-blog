@@ -4,36 +4,6 @@ import axios from "axios";
 
 const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
 
-// const initialState = [
-//     {
-//         id: "1",
-//         title: "Learning Redux Toolkit :)",
-//         content: "I've heard good things.",
-//         date: sub(new Date(), { minutes: 10 }).toISOString(),
-//         reactions: {
-//             thumbsUp: 0,
-//             wow: 0,
-//             heart: 0,
-//             rocket: 0,
-//             coffee: 0
-//         }
-
-//     },
-//     {
-//         id: "2",
-//         title: "Slices...",
-//         content: "The more I say slice, the more I want pizza",
-//         date: sub(new Date(), { minutes: 10 }).toISOString(),
-//         reactions: {
-//             thumbsUp: 0,
-//             wow: 0,
-//             heart: 0,
-//             rocket: 0,
-//             coffee: 0
-//         }
-//     }
-// ]
-
 const initialState = {
     posts: [],
     status: 'idle',
@@ -56,7 +26,20 @@ export const updatePost = createAsyncThunk('posts/updatePost', async (initialPos
         const response = await axios.put(`${POSTS_URL}/${id}`, initialPost)
         return response.data
     } catch (error) {
+        // return error.message;
+        return initialPost;
+    }
+})
+
+export const deletePost = createAsyncThunk('posts/deletePost', async (initialPost) => {
+    const { id } = initialPost;
+    try {
+        const response = await axios.delete(`${POSTS_URL}/${id}`);
+        if (response?.status === 200) return initialPost;
+        return `${response?.status}: ${response?.statusText}`;
+    } catch (error) {
         return error.message;
+        
     }
 })
 
@@ -156,7 +139,18 @@ const postsSlice = createSlice({
                 const posts = state.posts.filter(post => post.id !== id);
                 state.posts = [...posts, action.payload];
 
-            });
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                if (!action.payload?.id) {
+                    console.log("Delete could not complete")
+                    console.log(action.payload)
+                    return;
+                }
+                const { id } = action.payload;
+                const posts = state.posts.filter(post => post.id !== id);
+                state.posts = posts;
+                
+            })
     }
 })
 

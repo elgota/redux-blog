@@ -11,11 +11,6 @@ import Link from "next/link";
 
 
 const SinglePostPage = ({ postId }) => { 
-    //retrieve postId
-
-    // const router = useRouter();
-    // const { id: postId} = router.query;
-    
 
     console.log("Post id flag: ", postId);
 

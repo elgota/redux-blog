@@ -2,20 +2,21 @@
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPostById, updatePost } from "@/app/features/posts/postsSlice";
+import { selectPostById, updatePost, deletePost } from "@/app/features/posts/postsSlice";
 
 // Navigation
-
+import { useRouter } from "next/navigation";
 import { selectAllUsers } from "@/app/features/users/usersSlice";
 const EditPostForm = ({ params }) => {
 
     const { id: postId } = params;
+    const router = useRouter();
 
     const post = useSelector((state) => selectPostById(state, Number(postId)));
     const users = useSelector(selectAllUsers);
 
-    console.log("Users from edit Post", users);
-    console.log("Post form posts flag", post);
+    // console.log("Users from edit Post", users);
+    // console.log("Post form posts flag", post);
 
     const [title, setTitle] = useState(post?.title);
     const [content, setContent] = useState(post?.body);
@@ -41,17 +42,19 @@ const EditPostForm = ({ params }) => {
     const onSavePostClicked = () => {
         if (canSave) {
             try {
-                setAddRequestStatus("pending");
-                dispatch(updatePost({ id: post.id, title, body: content, userID, reactions: post.reactions })).unwrap();
+                setRequestStatus("pending");
+                dispatch(updatePost({ id: post.id, title, body: content, userId, reactions: post.reactions })).unwrap();
 
                 setTitle("");
                 setContent("");
                 setUserId("");
+                router.push(`/post/${postId}`);
                 //navigate(`/post/${postId}`)
+                
             } catch (error) {
                 console.error("Failed to save the post ", error);
             } finally {
-                setAddRequestStatus("Idle");
+                setRequestStatus("Idle");
             }
         }
     }
@@ -66,10 +69,28 @@ const EditPostForm = ({ params }) => {
         </option>
     ))
 
+    const onDeletePostClicked = () => {
+        try {
+            setRequestStatus("pending");
+            dispatch(deletePost({ id: post.id })).unwrap();
+
+            setTitle("");
+            setContent("");
+            setUserId("");
+            router.push(`/`);
+
+        } catch (error) {
+            console.error("Failed to delete the post", error)
+
+            
+        } finally {
+            setRequestStatus("idle");
+        }
+    }
+
     return (
 
-        <section>
-            {/* <div>EditPost {params.id}</div> */}
+        <section style={{ margin: "1rem"}}>
             <h2>Edit Post</h2>
             <form>
                 <label htmlFor="postTitle">Post Title:</label>
@@ -100,6 +121,13 @@ const EditPostForm = ({ params }) => {
                     disabled={!canSave}
                 >Save Post
                 </button>
+                <button className="deleteButton"
+                    type="button"
+                    onClick={onDeletePostClicked}
+                >
+                    Delete Post
+                </button>
+
             </form>
 
         </section>
