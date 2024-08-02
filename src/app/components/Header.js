@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 
 const Header = () => {
@@ -8,7 +10,7 @@ const Header = () => {
                 <ul>
                     <li><Link href="/">Home</Link></li>
                     <li><Link href="/post/add">Post</Link></li>
-                    
+                    <li><Link href="/features/users/userlist">Users</Link></li>
                 </ul>
             </nav>
         </header>
