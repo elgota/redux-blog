@@ -10,7 +10,7 @@ import Link from "next/link";
 const UserPage = ({ params }) => {
   
 const { id: userId } = params;
-console.log("User Id flag: ", params);
+// console.log("User Id flag: ", params);
 
   const user = useSelector(state => selectUserById(state, Number(userId)));
 
