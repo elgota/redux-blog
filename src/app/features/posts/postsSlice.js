@@ -7,7 +7,7 @@ const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
 const initialState = {
     posts: [],
     status: 'idle',
-    error: null
+    error: null,
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {

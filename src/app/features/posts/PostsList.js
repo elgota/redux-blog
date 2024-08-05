@@ -11,19 +11,10 @@ import ReactionButtons from "./ReactionButtons";
 import Link from "next/link";
 
 const PostsList = () => {
-    // const dispatch = useDispatch();
 
     const posts = useSelector(selectAllPosts);
     const postStatus = useSelector(getPostsStatus);
     const error = useSelector(getPostsError);
-
-    // useEffect(() => {
-    //     if (postStatus === 'idle') {
-    //         dispatch(fetchPosts())
-    //     }
-    // }, [postStatus, dispatch]);
-
-
 
     {/* const renderedPosts = orderedPosts.map(post => (
          <article key={post.id}>

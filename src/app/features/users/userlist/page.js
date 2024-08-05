@@ -9,7 +9,7 @@ const UserList = () => {
 
   const renderedUsers = users.map(user => (
     <li key={user.id}>
-        <Link to={`/user/${user.id}`}>{user.name}</Link>
+        <Link href={`/features/users/userpage/${user.id}`}>{user.name}</Link>
     </li>
   ));
   
@@ -18,7 +18,7 @@ const UserList = () => {
         <section>
             <h2>Users</h2>
 
-            {/* <ul>{renderedUsers}</ul> */}
+            <ul>{renderedUsers}</ul>
         </section>
 
 );

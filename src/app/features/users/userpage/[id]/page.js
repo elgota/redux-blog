@@ -1,13 +1,16 @@
+"use client"
+
 import { useSelector } from "react-redux";
-import { selectUserById } from "./usersSlice";
-import { selectAllPost } from "./../posts/postsSlice";
+import { selectUserById } from "../../usersSlice";
+import { selectAllPosts } from "../../../posts/postsSlice";
 import Link from "next/link";
 
 
 
-const UserPage = () => {
+const UserPage = ({ params }) => {
   
-//User Id
+const { id: userId } = params;
+console.log("User Id flag: ", params);
 
   const user = useSelector(state => selectUserById(state, Number(userId)));
 
@@ -18,7 +21,7 @@ const UserPage = () => {
 
   const postTitles = postsForUser.map(post => (
     <li>
-        <Link to={`/post/${post.id}`}>{post.title}</Link>
+        <Link href={`/post/${post.id}`}>{post.title}</Link>
     </li>
   ))
 
