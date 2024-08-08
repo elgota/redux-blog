@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
 
         <body className={inter.className}>
           <Header />
+          <main className="App">
           {children}
+          </main>
 
         </body>
       </Provider>
