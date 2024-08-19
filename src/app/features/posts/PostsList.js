@@ -1,21 +1,27 @@
 "use client"
 import { useSelector, useDispatch } from "react-redux";
-import { selectPostsIds, getPostsStatus, getPostsError, fetchPosts } from "./postsSlice";
+import { selectPostsIds, useGetPostsQuery } from "./postsSlice";
 
 import PostsExcerpt from "./PostsExcerpt";
 
 const PostsList = () => {
 
+    const {
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetPostsQuery();
+
     const orderedPostsIds = useSelector(selectPostsIds);
     const postStatus = useSelector(getPostsStatus);
-    const error = useSelector(getPostsError);
 
     let content;
-    if (postStatus === 'loading') {
+    if (isLoading) {
         content = <p>"Loading..."</p>;
-    } else if (postStatus === 'succeeded') {
+    } else if (isSuccess) {
         content = orderedPostsIds.map(postId => <PostsExcerpt key={postId} postId={postId}/>)
-    } else if (postStatus === 'failed') {
+    } else if (isError) {
         content = <p>{error}</p>;
     }
 

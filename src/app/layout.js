@@ -4,12 +4,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { store } from "@/app/store";
-import { fetchPosts } from "./features/posts/postsSlice";
+import { extendedApiSlice } from "./features/posts/postsSlice";
 import { fetchUsers } from "./features/users/usersSlice";
 import Header from "./components/Header";
 
 
-store.dispatch(fetchUsers());
+store.dispatch(extendedApiSlice.endpoints.getPosts.initiate());
 store.dispatch(fetchPosts());
 
 const inter = Inter({ subsets: ["latin"] });
