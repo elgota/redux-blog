@@ -3,7 +3,7 @@ import {
     createEntityAdapter
 } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
-import { apiSlice } from "../api/apiSlice";
+import { apiSlice } from "./../api/apiSlice"
 
 const postsAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.date.localeCompare(a.date)
@@ -102,13 +102,38 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: (result, error, arg) => [
                 { type: "Post", id: arg.id}
             ]
-        }),  
+        }),
+        addReaction: builder.mutation({
+            query: ({ postId, reactions }) => ({
+                url: `posts/${postId}`,
+                method: "PATCH",
+                body: { reactions }
+            }),
+            async onQueryStarted({ postId, reactions }, { dispatch, queryFulfilled }) {
+                const patchResult = dispatch(
+                    extendedApiSlice.util.updateQueryData("getPosts", undefined, draft => {
+                        const post = draft.entities[postId]
+                        if (post) post.reactions = reactions
+                    })
+                )
+                try {
+                    await queryFulfilled
+                } catch {
+                    patchResult.undo()
+                }
+            }
+        })
+
     })
 })
 
 export const {
     useGetPostsQuery,
-    useGetPostsByUserIdQuery
+    useGetPostsByUserIdQuery,
+    useAddNewPostMutation,
+    useUpdatePostMutation,
+    useDeletePostMutation,
+    useAddReactionMutation,
 } = extendedApiSlice
 
 export const selectPostsResult = extendedApiSlice.endpoints.getPosts.select();
@@ -125,20 +150,3 @@ export const {
     selectIds: selectPostsIds,
 } = postsAdapter.getSelectors(state => selectPostsData(state) ?? initialState);
 
-
-// export const selectAllPosts = (state) => state.posts.posts;
-export const getPostsStatus = (state) => state.posts.status;
-export const getPostsError = (state) => state.posts.error;
-export const getCount = (state) => state.posts.count;
-
-// export const selectPostById = (state, postId) =>
-//     state.posts.posts.find(post => post.id === postId);
-
-export const selectPostsByUser = createSelector(
-    [selectAllPosts, (state, userId) => userId],
-    (posts, userId) => posts.filter(post => post.userId === userId)
-)
-
-export const { increaseCount, reactionAdded } = postsSlice.actions
-
-export default postsSlice.reducer

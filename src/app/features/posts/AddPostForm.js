@@ -1,20 +1,22 @@
 "use client"
 
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 //import { nanoid } from "@reduxjs/toolkit";
 // import { postAdded } from "./postsSlice";
 import { selectAllUsers } from "../users/usersSlice";
-import { addNewPost } from "./postsSlice";
+import { useAddNewPostMutation } from "./postsSlice";
 import { useRouter } from "next/navigation";
+
 const AddPostForm = () => {
-    const dispatch = useDispatch();
+    const [addNewPost, { isLoading }] = useAddNewPostMutation();
+
+    // const dispatch = useDispatch();
     const router = useRouter();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [userId, setUserId] = useState("");
-    const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
     const users = useSelector(selectAllUsers);
 
@@ -22,13 +24,12 @@ const AddPostForm = () => {
     const onContentChanged = e => setContent(e.target.value);
     const onAuthorChanged = e => setUserId(e.target.value);
 
-    const canSave = [title, content, userId].every(Boolean) && addRequestStatus === "idle";
+    const canSave = [title, content, userId].every(Boolean) && !isLoading;
 
-    const onSavePostClicked = () => {
+    const onSavePostClicked = async () => {
         if (canSave) {
             try {
-                setAddRequestStatus("pending");
-                dispatch(addNewPost({ title, body: content, userId })).unwrap();
+                await addNewPost({ title, body: content, userId }).unwrap();
 
                 setTitle("");
                 setContent("");
@@ -36,9 +37,7 @@ const AddPostForm = () => {
                 router.push("/");
             } catch (error) {
                 console.error("Failed to save the post ", error);
-            } finally {
-                setAddRequestStatus("Idle");
-            }
+            } 
         }
     }
 

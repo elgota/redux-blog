@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectAllUsers } from "../users/usersSlice";
-import Link from "Next/Link";
+import Link from "next/link";
 
 const PostAuthor = ( { userId } ) => {
     const users = useSelector(selectAllUsers);
@@ -8,7 +8,7 @@ const PostAuthor = ( { userId } ) => {
     const author = users.find(user => user.id === userId);
 
     return <span>by {author 
-            ? <Link href={`/user/${userId}`}>{author.name}</Link>
+            ? <Link href={`/features/users/userpage/${userId}`}>{author.name}</Link>
             : "Unknown author"}
             </span>
 }

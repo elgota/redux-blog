@@ -10,7 +10,7 @@ import Header from "./components/Header";
 
 
 store.dispatch(extendedApiSlice.endpoints.getPosts.initiate());
-store.dispatch(fetchPosts());
+store.dispatch(fetchUsers());
 
 const inter = Inter({ subsets: ["latin"] });
 

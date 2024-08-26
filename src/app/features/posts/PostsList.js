@@ -1,8 +1,9 @@
 "use client"
-import { useSelector, useDispatch } from "react-redux";
-import { selectPostsIds, useGetPostsQuery } from "./postsSlice";
 
+import { useSelector } from "react-redux";
+import { selectPostsIds } from "./postsSlice";
 import PostsExcerpt from "./PostsExcerpt";
+import { useGetPostsQuery } from "./postsSlice";
 
 const PostsList = () => {
 
@@ -11,10 +12,9 @@ const PostsList = () => {
         isSuccess,
         isError,
         error
-    } = useGetPostsQuery();
+    } = useGetPostsQuery()
 
     const orderedPostsIds = useSelector(selectPostsIds);
-    const postStatus = useSelector(getPostsStatus);
 
     let content;
     if (isLoading) {
